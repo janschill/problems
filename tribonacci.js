@@ -10,6 +10,14 @@ function tribonacci(signature, length) {
     return [];
   }
 
+  if (signature.length >= length) {
+    let result = [];
+    for (let i = 0; i < length; i++) {
+      result.push(signature[i]);
+    }
+    return result;
+  }
+
   if (length > signature.length) {
     length -= signature.length;
   }
@@ -21,6 +29,7 @@ function helper(signature, currentList, length) {
   if (length === 0) {
     return currentList;
   }
+
   const nextValue = signature.reduce((acc, cur) => acc + cur, 0);
   currentList.push(nextValue);
   if (signature.length === 3) {
