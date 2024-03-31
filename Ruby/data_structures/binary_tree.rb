@@ -1,4 +1,5 @@
 require_relative "tree"
+require_relative "queue"
 
 module DataStructures
   module Trees
@@ -72,8 +73,63 @@ module DataStructures
         BinaryTree.new(new_root)
       end
 
-      def print
+      def print(traversal_type = :depth_first)
+        case traversal_type
+        when :depth_first
+          depth_first_traversal { |node| puts node.value }
+        when :breadth_first
+          breadth_first_traversal { |node| puts node.value }
+        else
+          raise ArgumentError, "Invalid traversal type: #{traversal_type}"
+        end
+      end
 
+      private
+
+      def breadth_first_traversal(node = root, &visit)
+        queue = DataStructures::Queue.new
+
+        while node
+          visit.call(node)
+          queue.enqueue(node.left) if node.left
+          queue.enqueue(node.right) if node.right
+          node = queue.empty? ? nil : queue.dequeue.value
+        end
+      end
+
+      def depth_first_traversal(depth_type = :in_order, node = root, &visit)
+        case depth_type
+        when :in_order
+          in_order_traversal(node, &visit)
+        when :pre_order
+          pre_order_traversal(node, &visit)
+        when :post_order
+          post_order_traversal(node, &visit)
+        end
+      end
+
+      def in_order_traversal(node, &visit)
+        return if node.nil?
+
+        in_order_traversal(node.left, &visit)
+        visit.call(node)
+        in_order_traversal(node.right, &visit)
+      end
+
+      def pre_order_traversal(node, &visit)
+        return if node.nil?
+
+        visit.call(node)
+        pre_order_traversal(node.left, &visit)
+        pre_order_traversal(node.right, &visit)
+      end
+
+      def post_order_traversal(node, &visit)
+        return if node.nil?
+
+        post_order_traversal(node.left, &visit)
+        post_order_traversal(node.right, &visit)
+        visit.call(node)
       end
     end
   end

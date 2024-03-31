@@ -21,6 +21,14 @@ module DataStructures
       @length += 1
     end
 
+    def append_to_tail(v)
+      node = @head
+      while node.next
+        node = node.next
+      end
+      node.next = Node.new(v)
+    end
+
     def clear
       raise StandardError, "Not implemented"
     end

@@ -91,5 +91,22 @@ class TestBinaryTree < Minitest::Test
   end
 
   def test_print
+    bt = BinaryTree.new(Node.new(nil, 1))
+    bt.insert_left(bt.root, 2)
+    bt.insert_right(bt.root, 3)
+    bt.insert_left(bt.root.left, 4)
+    bt.insert_right(bt.root.left, 5)
+    bt.insert_left(bt.root.right, 6)
+    bt.insert_right(bt.root.right, 7)
+
+    puts "breadth"
+    bt.print(:breadth_first)
+    puts "in"
+    bt.print(:depth_first)
+    # bt.print(:depth_first, :in_order)
+    # puts "pre/depth?"
+    # bt.print(:depth_first, :pre_order)
+    # puts "post"
+    # bt.print(:depth_first, :post_order)
   end
 end
